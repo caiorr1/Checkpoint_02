@@ -18,11 +18,12 @@ namespace CP2.API.Controllers
         }
 
         /// <summary>
-        /// Metodo para obter todos os dados do Fornecedor
+        /// Obtém todos os fornecedores cadastrados.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Lista de fornecedores.</returns>
         [HttpGet]
-        [Produces<IEnumerable<FornecedorEntity>>]
+        [ProducesResponseType(typeof(IEnumerable<FornecedorEntity>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Get()
         {
             var objModel = _applicationService.ObterTodosFornecedores();
@@ -30,12 +31,17 @@ namespace CP2.API.Controllers
             if (objModel is not null)
                 return Ok(objModel);
 
-            return BadRequest("Não foi possivel obter os dados");
+            return BadRequest("Não foi possível obter os dados.");
         }
 
-
+        /// <summary>
+        /// Obtém um fornecedor específico pelo ID.
+        /// </summary>
+        /// <param name="id">ID do fornecedor.</param>
+        /// <returns>Dados do fornecedor.</returns>
         [HttpGet("{id}")]
-        [Produces<FornecedorEntity>]
+        [ProducesResponseType(typeof(FornecedorEntity), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult GetPorId(int id)
         {
             var objModel = _applicationService.ObterFornecedorPorId(id);
@@ -43,12 +49,17 @@ namespace CP2.API.Controllers
             if (objModel is not null)
                 return Ok(objModel);
 
-            return BadRequest("Não foi possivel obter os dados");
+            return BadRequest("Não foi possível obter os dados.");
         }
 
-
+        /// <summary>
+        /// Cadastra um novo fornecedor.
+        /// </summary>
+        /// <param name="entity">Dados do fornecedor a ser criado.</param>
+        /// <returns>Fornecedor criado.</returns>
         [HttpPost]
-        [Produces<FornecedorEntity>]
+        [ProducesResponseType(typeof(FornecedorEntity), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Post([FromBody] FornecedorDto entity)
         {
             try
@@ -58,7 +69,7 @@ namespace CP2.API.Controllers
                 if (objModel is not null)
                     return Ok(objModel);
 
-                return BadRequest("Não foi possivel salvar os dados");
+                return BadRequest("Não foi possível salvar os dados.");
             }
             catch (Exception ex)
             {
@@ -70,8 +81,15 @@ namespace CP2.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Atualiza os dados de um fornecedor existente.
+        /// </summary>
+        /// <param name="id">ID do fornecedor a ser atualizado.</param>
+        /// <param name="entity">Dados do fornecedor atualizados.</param>
+        /// <returns>Fornecedor atualizado.</returns>
         [HttpPut("{id}")]
-        [Produces<FornecedorEntity>]
+        [ProducesResponseType(typeof(FornecedorEntity), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Put(int id, [FromBody] FornecedorDto entity)
         {
             try
@@ -81,7 +99,7 @@ namespace CP2.API.Controllers
                 if (objModel is not null)
                     return Ok(objModel);
 
-                return BadRequest("Não foi possivel salvar os dados");
+                return BadRequest("Não foi possível atualizar os dados.");
             }
             catch (Exception ex)
             {
@@ -93,9 +111,14 @@ namespace CP2.API.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Remove um fornecedor pelo ID.
+        /// </summary>
+        /// <param name="id">ID do fornecedor a ser removido.</param>
+        /// <returns>Fornecedor removido.</returns>
         [HttpDelete("{id}")]
-        [Produces<FornecedorEntity>]
+        [ProducesResponseType(typeof(FornecedorEntity), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Delete(int id)
         {
             var objModel = _applicationService.DeletarDadosFornecedor(id);
@@ -103,7 +126,7 @@ namespace CP2.API.Controllers
             if (objModel is not null)
                 return Ok(objModel);
 
-            return BadRequest("Não foi possivel deletar os dados");
+            return BadRequest("Não foi possível deletar os dados.");
         }
     }
 }
